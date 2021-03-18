@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Vue Classwork</title>
+  <title>Assignment 2 Part 1</title>
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
@@ -17,22 +17,26 @@
         <legend class="w-auto">Google Books Search</legend>
         <div class="row form-group">
           <label for="txtSearch" class="col-sm-1 col-form-label">
-            keyword:
+            keyword: 
           </label>
           <div class="col-sm-5 col-lg-4">
             <input type="text" id="txtSearch" name="txtSearch" class="form-control" placeholder="keyword..." v-model="keyword">
           </div>
         </div>
         <div class="col-sm-4">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="reset" class="btn btn-secondary">Reset</button>
+          <button type="submit" class="btn btn-primary" @click="pageNum=0">Submit</button>
+          <button type="reset" class="btn btn-secondary"@click="result = null">Reset</button>
         </div>
       </fieldset>
     </form>
     <div id="mainDiv">
-      <div class="row col-sm-5" v-if="result != null">Found {{ (result != null)?result.totalItems:''}} </div>
+      <div class="row col-sm-5" v-if="result != null">Found {{ (result != null)?result.totalItems:'0'}} </div>
       <div class="row">
         <book-display v-if="result != null" v-for="(book, index) in result.items" :key="book.id" :book="JSON.stringify(book)"></book-display>
+      </div>
+      <div class="row col-sm-5" v-if="result != null">
+        <button type="button" class="btn btn-secondary" :disabled="pageNum==0" @click="pageNum -=1; searchGoogleBooks()" v-if="result != null">Previous</button>
+        <button type="button" class="btn btn-primary" :disabled="pageNum==maxPages" @click="pageNum +=1; searchGoogleBooks()" v-if="result != null">Next</button>
       </div>
     </div>
   </div>
@@ -49,7 +53,8 @@
   <script src="/js/main.js"></script>
   <script src="/js/components/bookDisplay.js"></script>
   <script>
-    const mountApp = app.mount("#app")
+    const mountApp = app.mount("#app");
+    const scrollToTop = {}
   </script>
 </body>
 

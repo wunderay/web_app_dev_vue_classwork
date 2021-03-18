@@ -1,3 +1,6 @@
 .hasError{
     color: red;
 }
+button:hover:disabled{
+    cursor:not-allowed;
+}
